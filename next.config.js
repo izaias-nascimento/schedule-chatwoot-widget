@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   // Configuração para Docker
   output: 'standalone',
   // Configurações para permitir iframe

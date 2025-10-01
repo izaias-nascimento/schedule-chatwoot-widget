@@ -12,3 +12,5 @@ README.md
 .gitignore
 .DS_Store
 *.tsbuildinfo
+# Manter a pasta public no build
+!public

@@ -53,6 +53,13 @@ docker-compose logs -f
 docker-compose down
 ```
 
+#### 4. Script de build automático
+
+```bash
+# Executar script de build
+./build.sh
+```
+
 ### 3. Usar como iframe
 
 Após fazer o deploy, você pode inserir este widget em qualquer página usando:

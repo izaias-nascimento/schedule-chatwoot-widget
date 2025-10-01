@@ -28,13 +28,14 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 # Descomente a linha abaixo caso queira desabilitar telemetria durante o runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+# ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Copiar pasta public
 COPY --from=builder /app/public ./public
 
 # Configurar as permissões corretas para o cache do Next.js
@@ -49,9 +50,9 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 # Configurar hostname para aceitar conexões de qualquer IP
-ENV HOSTNAME "0.0.0.0"
+ENV HOSTNAME="0.0.0.0"
 
 # server.js é criado pelo comando next build a partir do next.config.js
 CMD ["node", "server.js"]
