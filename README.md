@@ -4,10 +4,19 @@ Este é um projeto Next.js que cria uma página que pode ser inserida como ifram
 
 ## Funcionalidades
 
+### 📍 **Página Principal** (`/`)
 - ✅ Exibe a URL atual da página (iframe)
 - ✅ Tenta capturar a URL da página pai
+- ✅ Análise detalhada dos componentes da URL
 - ✅ Interface responsiva e moderna
 - ✅ Botões para copiar URLs
+
+### 📞 **Página Chatwoot** (`/chatwoot`)
+- ✅ Integração completa com Chatwoot Dashboard Apps
+- ✅ Escuta eventos automáticos do Chatwoot
+- ✅ Captura dados de conversa, contato e agente
+- ✅ Solicitação de dados on-demand
+- ✅ Interface especializada para atendimento
 - ✅ Configurado para funcionar em iframes
 
 ## Como usar
@@ -62,8 +71,7 @@ docker-compose down
 
 ### 3. Usar como iframe
 
-Após fazer o deploy, você pode inserir este widget em qualquer página usando:
-
+#### **Página Principal** (URLs)
 ```html
 <iframe 
   src="URL_DO_SEU_DEPLOY" 
@@ -74,15 +82,22 @@ Após fazer o deploy, você pode inserir este widget em qualquer página usando:
 </iframe>
 ```
 
+#### **Página Chatwoot** (Dashboard App)
+1. Configure no Chatwoot: **Settings → Integrations → Dashboard apps**
+2. URL: `https://SEU_DOMINIO.com/chatwoot`
+3. Nome: `Schedule Chatwoot Widget`
+
 ## Estrutura do projeto
 
-- `app/page.tsx` - Página principal com o widget
+- `app/page.tsx` - Página principal com o widget de URLs
+- `app/chatwoot/page.tsx` - Página especializada para Chatwoot Dashboard Apps
 - `app/layout.tsx` - Layout base da aplicação
 - `app/globals.css` - Estilos globais
 - `next.config.js` - Configurações do Next.js para iframe
 - `Dockerfile` - Configuração para containerização
 - `docker-compose.yml` - Orquestração de containers
 - `.dockerignore` - Arquivos ignorados no build Docker
+- `CHATWOOT_INTEGRATION.md` - Documentação da integração com Chatwoot
 
 ## Deploy
 

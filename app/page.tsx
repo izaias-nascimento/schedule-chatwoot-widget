@@ -384,6 +384,38 @@ export default function Home() {
           <p style={{ marginTop: '8px', fontSize: '12px' }}>
             Para usar como iframe: &lt;iframe src="URL_DESTE_SITE" width="500" height="400"&gt;&lt;/iframe&gt;
           </p>
+          
+          {/* Link para página do Chatwoot */}
+          <div style={{ 
+            background: '#f0f9ff', 
+            border: '1px solid #0ea5e9',
+            borderRadius: '8px',
+            padding: '12px',
+            marginTop: '16px',
+            textAlign: 'center'
+          }}>
+            <h4 style={{ marginBottom: '8px', fontSize: '14px', color: '#0c4a6e' }}>
+              🔗 Páginas Disponíveis:
+            </h4>
+            <a 
+              href="/chatwoot" 
+              style={{ 
+                display: 'inline-block',
+                background: '#0ea5e9',
+                color: 'white',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
+              📞 Chatwoot Dashboard App
+            </a>
+            <p style={{ fontSize: '11px', color: '#64748b', marginTop: '8px', marginBottom: 0 }}>
+              Página especializada para integração com Chatwoot Dashboard Apps
+            </p>
+          </div>
         </div>
       </div>
     </div>
