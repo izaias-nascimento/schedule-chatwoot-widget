@@ -8,6 +8,7 @@ export default function Home() {
   const [isInIframe, setIsInIframe] = useState<boolean>(false)
   const [referrerUrl, setReferrerUrl] = useState<string>('')
   const [urlDetails, setUrlDetails] = useState<any>({})
+  const [referrerDetails, setReferrerDetails] = useState<any>({})
 
   useEffect(() => {
     // Captura a URL atual da página
@@ -46,8 +47,27 @@ export default function Home() {
     // Captura o referrer (pode ser útil em alguns casos)
     if (document.referrer) {
       setReferrerUrl(document.referrer)
+      
+      // Analisa os componentes da URL de origem
+      try {
+        const referrerObj = new URL(document.referrer)
+        setReferrerDetails({
+          protocol: referrerObj.protocol,
+          hostname: referrerObj.hostname,
+          port: referrerObj.port,
+          pathname: referrerObj.pathname,
+          search: referrerObj.search,
+          hash: referrerObj.hash,
+          origin: referrerObj.origin,
+          href: referrerObj.href
+        })
+      } catch (error) {
+        console.error('Erro ao analisar referrer:', error)
+        setReferrerDetails({})
+      }
     } else {
       setReferrerUrl('Nenhum referrer disponível')
+      setReferrerDetails({})
     }
   }, [])
 
@@ -167,11 +187,12 @@ export default function Home() {
         {/* Informações adicionais */}
         <div style={{ marginTop: '24px' }}>
           <h3 style={{ marginBottom: '8px', fontSize: '16px', color: '#374151' }}>
-            Referrer (Página de Origem):
+            URL Completa da Página de Origem (Referrer):
           </h3>
           <div className="url-display" style={{ 
             fontSize: referrerUrl === 'Nenhum referrer disponível' ? '14px' : '16px',
-            fontWeight: referrerUrl === 'Nenhum referrer disponível' ? 'normal' : 'bold'
+            fontWeight: referrerUrl === 'Nenhum referrer disponível' ? 'normal' : 'bold',
+            marginBottom: '12px'
           }}>
             {referrerUrl}
           </div>
@@ -179,9 +200,61 @@ export default function Home() {
             <button 
               className="button"
               onClick={() => copyToClipboard(referrerUrl)}
+              style={{ marginBottom: '16px' }}
             >
-              📋 Copiar Referrer
+              📋 Copiar URL Completa de Origem
             </button>
+          )}
+          
+          {/* Detalhes da URL de origem */}
+          {Object.keys(referrerDetails).length > 0 && (
+            <div style={{ 
+              background: '#f0fdf4', 
+              border: '1px solid #22c55e',
+              borderRadius: '8px',
+              padding: '16px',
+              marginTop: '16px'
+            }}>
+              <h4 style={{ marginBottom: '12px', fontSize: '14px', color: '#166534', fontWeight: '600' }}>
+                🔍 Componentes da URL de Origem:
+              </h4>
+              <div style={{ display: 'grid', gap: '8px', fontSize: '13px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#166534', fontWeight: '500' }}>Protocolo:</span>
+                  <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.protocol}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#166534', fontWeight: '500' }}>Hostname:</span>
+                  <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.hostname}</span>
+                </div>
+                {referrerDetails.port && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#166534', fontWeight: '500' }}>Porta:</span>
+                    <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.port}</span>
+                  </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#166534', fontWeight: '500' }}>Caminho:</span>
+                  <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.pathname}</span>
+                </div>
+                {referrerDetails.search && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#166534', fontWeight: '500' }}>Query:</span>
+                    <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.search}</span>
+                  </div>
+                )}
+                {referrerDetails.hash && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#166534', fontWeight: '500' }}>Hash:</span>
+                    <span style={{ fontFamily: 'monospace', color: '#1e293b' }}>{referrerDetails.hash}</span>
+                  </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #22c55e', paddingTop: '8px', marginTop: '8px' }}>
+                  <span style={{ color: '#166534', fontWeight: '500' }}>Origin:</span>
+                  <span style={{ fontFamily: 'monospace', color: '#1e293b', fontWeight: '600' }}>{referrerDetails.origin}</span>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
@@ -244,7 +317,7 @@ export default function Home() {
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: '#0c4a6e', fontWeight: '500' }}>Referrer:</span>
+              <span style={{ color: '#0c4a6e', fontWeight: '500' }}>URL de Origem:</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontFamily: 'monospace', color: '#1e293b', fontSize: '12px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {referrerUrl}
@@ -269,6 +342,22 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Informações sobre URL de origem disponível */}
+        {Object.keys(referrerDetails).length > 0 && (
+          <div style={{ 
+            background: '#f0fdf4', 
+            border: '1px solid #22c55e',
+            borderRadius: '8px',
+            padding: '12px',
+            marginTop: '20px',
+            fontSize: '14px',
+            color: '#166534'
+          }}>
+            <strong>✅ URL de Origem Completa Disponível:</strong><br/>
+            A URL da página de origem foi capturada com sucesso e todos os componentes estão disponíveis para análise.
+          </div>
+        )}
 
         {/* Informações sobre cross-origin */}
         {parentUrl === 'Página pai não acessível (cross-origin)' && (
